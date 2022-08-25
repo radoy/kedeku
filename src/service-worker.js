@@ -11,7 +11,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 clientsClaim();
 
@@ -81,6 +81,7 @@ self.addEventListener('install', (event) => {
 
   event.waitUntil(asyncInstall);
 });
+
 self.addEventListener('activate', (event) => {
   console.log('Activate !: ', event);
 
@@ -97,3 +98,18 @@ self.addEventListener('activate', (event) => {
 
   event.waitUntil(asyncActivate);
 });
+
+// Cache font CDN
+registerRoute(
+  ({ url }) =>
+    url.origin === 'https:fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com',
+  new NetworkFirst({
+    cacheName: 'fonts',
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 60 * 60 * 24 * 356,
+        maxEntries: 30
+      })
+    ]
+  })
+);
