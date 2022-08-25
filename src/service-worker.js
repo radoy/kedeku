@@ -70,3 +70,30 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+self.addEventListener('install', (event) => {
+  console.log('Install !: ', event);
+
+  const asyncInstall = (async () => {
+    console.log('Waiting install !: ', event);
+  })().then(() => {
+    setTimeout(() => {}, 5000);
+  });
+
+  event.waitUntil(asyncInstall);
+});
+self.addEventListener('activate', (event) => {
+  console.log('Activate !: ', event);
+
+  const asyncActivate = (async () => {
+    console.log('Waiting Activate !');
+  })().then(() => {
+    setTimeout(() => {}, 5000);
+  });
+
+  // const asyncActivate = new Promise((resolve) => {
+  //   console.log('Waiting activate ');
+  //   setTimeout(resolve, 5000);
+  // });
+
+  event.waitUntil(asyncActivate);
+});
