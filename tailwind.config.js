@@ -3,7 +3,7 @@ module.exports = {
   content: ['./src/**/*.{js,jsx}'],
   theme: {
     fontFamily: {
-      sans: ['"Josefin Sans"'],
+      sans: ['"Open Sans"'],
       serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
       mono: [
         'ui-monospace',
